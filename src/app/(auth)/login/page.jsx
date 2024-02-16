@@ -1,13 +1,9 @@
-"use client";
-
 import { LoginForm } from "@/components/loginForm/loginForm";
 import { handleGithubLogin } from "@/lib/auth/authServerActions";
 import styles from "./login.module.css";
-import { useSearchParams } from "next/navigation";
 
-const LoginPage = () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+const LoginPage = ({ searchParams }) => {
+  const callbackUrl = searchParams.callbackUrl || "/";
 
   return (
     <div className={styles.container}>
