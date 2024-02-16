@@ -1,22 +1,9 @@
-import { getUser } from "@/lib/data";
 import styles from "./postUser.module.css";
 import Image from "next/image";
-
-// FETCH DATA WITH AN API
-// const getData = async (userId) => {
-//   // await new Promise((resolve) => setTimeout(resolve, 2000));
-//   const res = await fetch(
-//     `https://jsonplaceholder.typicode.com/users/${userId}`,
-//     { cache: "no-store" }
-//   );
-//   if (!res.ok) {
-//     throw new Error("Something went wrong");
-//   }
-//   return res.json();
-// };
+import { data } from "@/lib/data/data";
 
 const PostUser = async ({ userId }) => {
-  const user = await getUser(userId);
+  const user = await data.getUser(userId);
 
   return (
     <div className={styles.container}>
