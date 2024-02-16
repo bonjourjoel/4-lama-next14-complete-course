@@ -1,19 +1,19 @@
-import {
-  handleGithubLogin,
-  handleLoginInternal,
-} from "@/lib/auth/authServerActions";
+import { LoginForm } from "@/components/loginForm/loginForm";
+import { handleGithubLogin } from "@/lib/auth/authServerActions";
+import styles from "./login.module.css";
 
 const LoginPage = async () => {
   return (
-    <div>
-      <form action={handleGithubLogin}>
-        <button>Login with Guthub</button>
-      </form>
-      <form action={handleLoginInternal}>
-        <input type="text" placeholder="username" name="username" />
-        <input type="password" placeholder="password" name="password" />
-        <button>Login with credentials</button>
-      </form>
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <form action={handleGithubLogin}>
+          <button className={styles.github}>Login with Guthub</button>
+        </form>
+        <br />
+        <hr />
+        <br />
+        <LoginForm />
+      </div>
     </div>
   );
 };
