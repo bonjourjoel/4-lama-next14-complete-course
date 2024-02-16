@@ -4,6 +4,7 @@ import { handleLoginInternal } from "@/lib/auth/authServerActions";
 import styles from "./loginForm.module.css";
 import { useFormState } from "react-dom";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export const LoginForm = () => {
   /**
@@ -11,11 +12,14 @@ export const LoginForm = () => {
    * and also it works even if javascript is disabled
    */
   const [state, formAction] = useFormState(handleLoginInternal, undefined);
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   return (
     <form className={styles.form} action={formAction}>
       <input type="text" placeholder="username" name="username" />
       <input type="password" placeholder="password" name="password" />
+      <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <button>Login</button>
       {state?.error && <div className={styles.error}>{state.error}</div>}
       <Link href="/register">

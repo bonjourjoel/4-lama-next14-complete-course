@@ -1,5 +1,7 @@
 // we separate the config in a separate file because middleware.js can NOT import nodejs libs like in auth.js
 
+import { NextResponse } from "next/server";
+
 export const authConfig = {
   pages: {
     signIn: "/login",
@@ -33,19 +35,29 @@ export const authConfig = {
       const isOnBlogPage = request.nextUrl?.pathname.startsWith("/blog");
       const isOnLoginPage = request.nextUrl?.pathname.startsWith("/login");
 
+      let redirect = false;
+
       // ONLY ADMIN CAN REACH THE ADMIN DASHBOARD
       if (isOnAdminPanel && !user?.isAdmin) {
-        return false;
+        redirect = true;
       }
 
       // ONLY AUTHENTICATED USERS CAN REACH THE BLOG PAGE
       if (isOnBlogPage && !user) {
-        return false;
+        redirect = true;
+      }
+
+      if (redirect) {
+        // the user is not logged in, redirect to the sign-in page, and set callbackUrl
+        const signInPage = "/login";
+        const signInUrl = new URL(signInPage, request.nextUrl.origin);
+        signInUrl.searchParams.append("callbackUrl", request.url);
+        return NextResponse.redirect(signInUrl);
       }
 
       // ONLY UNAUTHENTICATED USERS CAN REACH THE LOGIN PAGE
       if (isOnLoginPage && user) {
-        return Response.redirect(new URL("/", request.nextUrl));
+        return NextResponse.redirect(new URL("/", request.nextUrl));
       }
 
       // OK

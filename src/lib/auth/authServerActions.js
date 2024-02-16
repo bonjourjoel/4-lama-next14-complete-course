@@ -6,8 +6,9 @@ import bcryptjs from "bcryptjs";
 
 const { signIn, signOut } = require("./auth");
 
-export const handleGithubLogin = async () => {
-  await signIn("github");
+export const handleGithubLogin = async (formData) => {
+  const { callbackUrl } = Object.fromEntries(formData);
+  await signIn("github", { redirectTo: callbackUrl });
 };
 
 export const handleLogout = async () => {
@@ -49,10 +50,14 @@ export const handleRegisterInternal = async (previousState, formData) => {
 };
 
 export const handleLoginInternal = async (previousState, formData) => {
-  const { username, password } = Object.fromEntries(formData);
+  const { username, password, callbackUrl } = Object.fromEntries(formData);
 
   try {
-    await signIn("credentials", { username, password });
+    await signIn("credentials", {
+      username,
+      password,
+      redirectTo: callbackUrl,
+    });
   } catch (err) {
     console.log(err);
     if (err.message.includes("CredentialsSignin")) {
