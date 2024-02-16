@@ -15,7 +15,7 @@ const LoginPage = ({ searchParams }) => {
         <br />
         <hr />
         <br />
-        <LoginForm />
+        <LoginForm callbackUrl={callbackUrl} />
       </div>
     </div>
   );

@@ -4,16 +4,13 @@ import { handleLoginInternal } from "@/lib/auth/authServerActions";
 import styles from "./loginForm.module.css";
 import { useFormState } from "react-dom";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
-export const LoginForm = () => {
+export const LoginForm = ({ callbackUrl }) => {
   /**
    * useFormState handles a state after form submission, based on the return value of the form's server action
    * and also it works even if javascript is disabled
    */
   const [state, formAction] = useFormState(handleLoginInternal, undefined);
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   return (
     <form className={styles.form} action={formAction}>
