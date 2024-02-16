@@ -36,19 +36,19 @@ export const authConfig = {
       const isOnBlogPage = request.nextUrl?.pathname.startsWith("/blog");
       const isOnLoginPage = request.nextUrl?.pathname.startsWith("/login");
 
-      let redirect = false;
+      let redirectToLogin = false;
 
       // ONLY ADMIN CAN REACH THE ADMIN DASHBOARD
       if (isOnAdminPanel && !user?.isAdmin) {
-        redirect = true;
+        redirectToLogin = true;
       }
 
       // ONLY AUTHENTICATED USERS CAN REACH THE BLOG PAGE
       if (isOnBlogPage && !user) {
-        redirect = true;
+        redirectToLogin = true;
       }
 
-      if (redirect) {
+      if (redirectToLogin) {
         // the user is not logged in, redirect to the sign-in page, and set callbackUrl
         const signInPage = "/login";
         const signInUrl = new URL(signInPage, request.nextUrl.origin);
