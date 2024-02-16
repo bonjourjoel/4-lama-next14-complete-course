@@ -29,6 +29,7 @@ export const authConfig = {
     },
 
     // authorize the page or not, depending on auth, and if not allowed will redirect to login page defined above
+    // always authorize, but redirect to login page with callbackUrl set, in order to workaround a bug of next.js and always have the correct callbackUrl set in the ?callbackUrl=
     authorized({ auth, request }) {
       const user = auth?.user;
       const isOnAdminPanel = request.nextUrl?.pathname.startsWith("/admin");
@@ -60,7 +61,7 @@ export const authConfig = {
         return NextResponse.redirect(new URL("/", request.nextUrl));
       }
 
-      // OK
+      // always authorize, because we redirected to login page if not authorized
       return true;
     },
   },
