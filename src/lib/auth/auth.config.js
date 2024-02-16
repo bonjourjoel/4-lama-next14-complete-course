@@ -49,7 +49,7 @@ export const authConfig = {
       }
 
       if (redirectToLogin) {
-        // the user is not logged in, redirect to the sign-in page, and set callbackUrl
+        // the user is not logged in, redirect to the sign-in page, and set callbackUrl query param
         const signInPage = "/login";
         const signInUrl = new URL(signInPage, request.nextUrl.origin);
         signInUrl.searchParams.append("callbackUrl", request.url);
