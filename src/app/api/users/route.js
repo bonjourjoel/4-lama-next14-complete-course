@@ -2,7 +2,6 @@ import { Api } from "@/lib/ApiHelper";
 import { User } from "@/lib/models";
 import { connectToDb } from "@/lib/utils";
 
-// eslint-disable-next-line no-unused-vars
 export const GET = async (request) => {
   return Api.exec({ check: Api.CHECK_ADMIN }, async () => {
     const { searchParams } = new URL(request.url);
