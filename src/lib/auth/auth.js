@@ -7,9 +7,7 @@ import { data } from "../data/data";
 
 const loginInternal = async (credentials) => {
   try {
-    const user = await data.findUserByUsername({
-      username: credentials.username,
-    });
+    const user = await data.findUserByUsername(credentials.username);
     if (!user) {
       throw new Error("Wrong credentials!");
     }
@@ -56,7 +54,7 @@ export const {
       if (account.provider == "github") {
         try {
           // check if the 0Auth signed in user already has an account in OUR database
-          const user = await data.findUserByEmail({ email: profile.email });
+          const user = await data.findUserByEmail(profile.email);
           // if not, create one
           if (!user) {
             await data.addUser({
