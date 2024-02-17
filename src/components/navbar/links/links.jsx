@@ -40,7 +40,12 @@ const Links = ({ session }) => {
               <NavLink item={{ title: "Admin", path: "/admin" }} />
             )}
             <form action={handleLogout}>
-              <button className={styles.logout}>Logout</button>
+              <button
+                className={styles.logout}
+                title={`Logout: ${session.user.email}`}
+              >
+                Logout
+              </button>
             </form>
           </>
         ) : (
