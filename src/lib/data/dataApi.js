@@ -1,22 +1,37 @@
 export class DataApi {
+  convertMogodbIds(data) {
+    function convertId(item) {
+      if (item._id != undefined) {
+        item.id = item._id;
+        delete item._id;
+      }
+    }
+    if (Array.isArray(data)) {
+      data.forEach((item) => convertId(item));
+    } else {
+      convertId(data);
+    }
+    return data;
+  }
+
   async getPosts() {
     const res = await fetch("http://localhost:3000/api/posts", {
-      next: { revalidate: 0 },
+      cache: "no-store",
     });
     if (!res.ok) {
       throw new Error("Something went wrong");
     }
-    return res.json();
+    return this.convertMogodbIds(await res.json());
   }
 
   async getPost(slug) {
     const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
-      next: { revalidate: 0 },
+      cache: "no-store",
     });
     if (!res.ok) {
       throw new Error("Something went wrong");
     }
-    return res.json();
+    return this.convertMogodbIds(await res.json());
   }
 
   async addPost({ title, desc, slug, userId }) {
@@ -27,7 +42,7 @@ export class DataApi {
     if (!res.ok) {
       throw new Error("Something went wrong");
     }
-    return res.json();
+    return this.convertMogodbIds(await res.json());
   }
 
   async deletePost(slug) {
@@ -37,27 +52,27 @@ export class DataApi {
     if (!res.ok) {
       throw new Error("Something went wrong");
     }
-    return res.json();
+    return this.convertMogodbIds(await res.json());
   }
 
   async getUsers(queryString = "") {
     const res = await fetch(`http://localhost:3000/api/users${queryString}`, {
-      next: { revalidate: 0 },
+      cache: "no-store",
     });
     if (!res.ok) {
       throw new Error("Something went wrong");
     }
-    return res.json();
+    return this.convertMogodbIds(await res.json());
   }
 
   async getUser(id) {
     const res = await fetch(`http://localhost:3000/api/users/${id}`, {
-      cache: "no-cache",
+      cache: "no-store",
     });
     if (!res.ok) {
       throw new Error("Something went wrong");
     }
-    return res.json();
+    return this.convertMogodbIds(await res.json());
   }
 
   async findUserByUsername(username) {
@@ -76,7 +91,7 @@ export class DataApi {
     if (!res.ok) {
       throw new Error("Something went wrong");
     }
-    return res.json();
+    return this.convertMogodbIds(await res.json());
   }
 
   async deleteUser(id) {
@@ -86,6 +101,6 @@ export class DataApi {
     if (!res.ok) {
       throw new Error("Something went wrong");
     }
-    return res.json();
+    return this.convertMogodbIds(await res.json());
   }
 }

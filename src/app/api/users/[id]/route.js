@@ -3,7 +3,9 @@ import { connectToDb } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 // eslint-disable-next-line no-unused-vars
-export const GET = async (request, { id }) => {
+export const GET = async (request, { params }) => {
+  const { id } = params;
+
   try {
     connectToDb();
     const user = await User.findById(id);
