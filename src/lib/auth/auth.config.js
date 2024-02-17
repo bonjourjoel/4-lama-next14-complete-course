@@ -1,4 +1,4 @@
-// we separate the config in a separate file because middleware.js can NOT import nodejs libs like in auth.js
+// we move the config in a separate file because middleware.js imports this can NOT import nodejs libs like in auth.js
 
 import { NextResponse } from "next/server";
 
