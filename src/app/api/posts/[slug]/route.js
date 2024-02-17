@@ -1,16 +1,15 @@
-import { apiCheckAdmin, apiCheckAuth } from "@/lib/auth/apiCheckAuth";
+import { Api, CHECK_ADMIN, CHECK_AUTH, api } from "@/lib/ApiHelper";
 import { Post } from "@/lib/models";
 import { connectToDb } from "@/lib/utils";
-import { NextResponse } from "next/server";
 
 export const GET = async (request, { params }) => {
-  return apiCheckAuth(async () => {
+  return api({ check: CHECK_AUTH }, async () => {
     const { slug } = params;
 
     try {
       connectToDb();
       const post = await Post.findOne({ slug });
-      return NextResponse.json(post);
+      return Api.response(post);
     } catch (err) {
       console.log(err);
       throw new Error("Failed to fetch post");
@@ -19,13 +18,13 @@ export const GET = async (request, { params }) => {
 };
 
 export const DELETE = async (request, { params }) => {
-  return apiCheckAdmin(async () => {
+  return api({ check: CHECK_ADMIN }, async () => {
     const { slug } = params;
 
     try {
       connectToDb();
       await Post.deleteOne({ slug });
-      return NextResponse.json("Post deleted");
+      return Api.response("Post deleted");
     } catch (err) {
       console.log(err);
       throw new Error("Failed to delete post");

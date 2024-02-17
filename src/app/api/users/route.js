@@ -1,11 +1,10 @@
-import { apiCheckAdmin } from "@/lib/auth/apiCheckAuth";
+import { Api, CHECK_ADMIN, api } from "@/lib/ApiHelper";
 import { User } from "@/lib/models";
 import { connectToDb } from "@/lib/utils";
-import { NextResponse } from "next/server";
 
 // eslint-disable-next-line no-unused-vars
 export const GET = async (request) => {
-  return apiCheckAdmin(async () => {
+  return api({ check: CHECK_ADMIN }, async () => {
     const { searchParams } = new URL(request.url);
 
     try {
@@ -19,7 +18,7 @@ export const GET = async (request) => {
         users = await User.find();
       }
 
-      return NextResponse.json(users);
+      return Api.response(users);
     } catch (err) {
       console.log(err);
       throw new Error("Failed to fetch users");
@@ -28,7 +27,7 @@ export const GET = async (request) => {
 };
 
 export const POST = async (request) => {
-  return apiCheckAdmin(async () => {
+  return api({ check: CHECK_ADMIN }, async () => {
     const { username, email, password, img } = await request.json();
     try {
       connectToDb();
@@ -40,7 +39,7 @@ export const POST = async (request) => {
       });
       await newUser.save();
 
-      return NextResponse.json(newUser);
+      return Api.response(newUser, 201);
     } catch (err) {
       console.log(err);
       throw new Error("Failed to add user");
