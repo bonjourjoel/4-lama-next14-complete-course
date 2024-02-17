@@ -6,7 +6,7 @@ const { DataMock } = require("./dataMock");
 const FETCH_METHOD_MOCK = "mock";
 const FETCH_METHOD_API = "api";
 const FETCH_METHOD_DB = "db";
-const FETCH_DATA_WITH = FETCH_METHOD_API; // change read method here
+const FETCH_DATA_WITH = FETCH_METHOD_DB; // change read method here
 
 function createDataObject() {
   switch (FETCH_DATA_WITH) {
