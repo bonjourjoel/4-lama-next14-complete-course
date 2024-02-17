@@ -1,7 +1,7 @@
 "use client";
 
 import { handleLoginInternal } from "@/lib/auth/authServerActions";
-import styles from "./loginForm.module.css";
+import styles from "./LoginForm.module.css";
 import { useFormState } from "react-dom";
 import Link from "next/link";
 

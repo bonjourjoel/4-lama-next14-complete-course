@@ -3,11 +3,13 @@ import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcryptjs from "bcryptjs";
 import { authConfig } from "./auth.config";
-import { data } from "../data/data";
+import { connectToDb } from "../utils";
+import { User } from "../models";
 
 const loginInternal = async (credentials) => {
   try {
-    const user = await data.findUserByUsername(credentials.username);
+    connectToDb();
+    const user = await User.findOne({ username: credentials.username });
     if (!user) {
       throw new Error("Wrong credentials!");
     }
@@ -54,14 +56,16 @@ export const {
       if (account.provider == "github") {
         try {
           // check if the 0Auth signed in user already has an account in OUR database
-          const user = await data.findUserByEmail(profile.email);
+          connectToDb();
+          const user = await User.findOne({ email: profile.email });
           // if not, create one
           if (!user) {
-            await data.addUser({
+            const newUser = new User({
               username: profile.login, // profile.xxx fields names changes depending on the provider
               email: profile.email,
               img: profile.avatar_url,
             });
+            await newUser.save();
           }
         } catch (error) {
           console.log(error);

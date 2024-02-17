@@ -1,7 +1,7 @@
 "use client";
 
 import { handleRegisterInternal } from "@/lib/auth/authServerActions";
-import styles from "./registerForm.module.css";
+import styles from "./RegisterForm.module.css";
 import { useFormState } from "react-dom";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";

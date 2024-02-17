@@ -85,7 +85,7 @@ export class DataDb {
     return User.findOne({ email });
   }
 
-  async addUser({ username, email, password, img }) {
+  async addUser({ username, email, password, img, isAdmin }) {
     try {
       connectToDb();
       const newUser = new User({
@@ -93,6 +93,7 @@ export class DataDb {
         email,
         password,
         img,
+        isAdmin,
       });
 
       await newUser.save();

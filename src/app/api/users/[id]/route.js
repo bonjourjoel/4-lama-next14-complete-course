@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export const GET = async (request, { id }) => {
   try {
     connectToDb();
-    const user = await User.findOne({ id });
+    const user = await User.findById(id);
 
     return NextResponse.json(user);
   } catch (err) {
@@ -20,7 +20,7 @@ export const DELETE = async (request, { params }) => {
 
   try {
     connectToDb();
-    await User.findByIdAndDelete({ id });
+    await User.findByIdAndDelete(id);
 
     return NextResponse.json("User deleted");
   } catch (err) {

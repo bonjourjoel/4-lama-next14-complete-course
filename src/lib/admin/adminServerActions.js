@@ -3,12 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { data } from "../data/data";
 
-export const addPost = async (prevState, formData) => {
+export const saAdmAddPost = async (prevState, formData) => {
   const { title, desc, slug, userId } = Object.fromEntries(formData);
 
   try {
     data.addPost({ title, desc, slug, userId });
-    console.log("saved post");
+    console.log(`added post ${slug}`);
 
     revalidatePath("/blog");
     revalidatePath("/admin");
@@ -18,12 +18,12 @@ export const addPost = async (prevState, formData) => {
   }
 };
 
-export const deletePost = async (formData) => {
-  const { id } = Object.fromEntries(formData);
+export const saAdmDeletePost = async (formData) => {
+  const { slug } = Object.fromEntries(formData);
 
   try {
-    data.deletePost(id);
-    console.log("deleted post");
+    data.deletePost(slug);
+    console.log(`deleted post ${slug}`);
 
     revalidatePath("/blog");
     revalidatePath("/admin");
@@ -33,11 +33,12 @@ export const deletePost = async (formData) => {
   }
 };
 
-export const addUser = async (prevState, formData) => {
-  const { username, email, password, img } = Object.fromEntries(formData);
+export const saAdmAddUser = async (prevState, formData) => {
+  const { username, email, password, img, isAdmin } =
+    Object.fromEntries(formData);
 
   try {
-    data.addUser({ username, email, password, img });
+    data.addUser({ username, email, password, img, isAdmin });
     console.log("saved user");
 
     revalidatePath("/admin");
@@ -47,7 +48,7 @@ export const addUser = async (prevState, formData) => {
   }
 };
 
-export const deleteUser = async (formData) => {
+export const saAdmDeleteUser = async (formData) => {
   const { id } = Object.fromEntries(formData);
 
   try {

@@ -40,7 +40,7 @@ export class DataApi {
     return res.json();
   }
 
-  async getUsers(queryString) {
+  async getUsers(queryString = "") {
     const res = await fetch(`http://localhost:3000/api/users${queryString}`, {
       next: { revalidate: 0 },
     });
@@ -61,11 +61,11 @@ export class DataApi {
   }
 
   async findUserByUsername(username) {
-    return this.getUsers(`?username=${username}`)[0];
+    return (await this.getUsers(`?username=${username}`))[0];
   }
 
   async findUserByEmail(email) {
-    return this.getUsers(`?email=${email}`)[0];
+    return (await this.getUsers(`?email=${email}`))[0];
   }
 
   async addUser({ username, email, password, img }) {

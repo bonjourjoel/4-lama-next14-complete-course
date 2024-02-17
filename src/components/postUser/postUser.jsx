@@ -1,4 +1,4 @@
-import styles from "./postUser.module.css";
+import styles from "./PostUser.module.css";
 import Image from "next/image";
 import { data } from "@/lib/data/data";
 
