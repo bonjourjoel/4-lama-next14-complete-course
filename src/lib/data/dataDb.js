@@ -25,6 +25,33 @@ export class DataDb {
     }
   }
 
+  async addPost({ title, desc, slug, userId }) {
+    try {
+      connectToDb();
+      const newPost = new Post({
+        title,
+        desc,
+        slug,
+        userId,
+      });
+
+      await newPost.save();
+    } catch (error) {
+      console.log(error);
+      throw new Error(`Failed to add post ${slug}!`);
+    }
+  }
+
+  async deletePost(slug) {
+    try {
+      connectToDb();
+      await Post.findOneAndDelete(slug);
+    } catch (error) {
+      console.log(error);
+      throw new Error(`Failed to delete post ${slug}!`);
+    }
+  }
+
   async getUsers() {
     try {
       connectToDb();
@@ -36,15 +63,53 @@ export class DataDb {
     }
   }
 
-  async getUser(id) {
+  async getUser(userId) {
     noStore();
     try {
       connectToDb();
-      const user = await User.findById(id);
+      const user = await User.findById(userId);
       return user;
     } catch (error) {
       console.log(error);
-      throw new Error(`Failed to fetch user ${id}!`);
+      throw new Error(`Failed to fetch user ${userId}!`);
+    }
+  }
+
+  async findUserByUsername(username) {
+    connectToDb();
+    return User.findOne({ username });
+  }
+
+  async findUserByEmail(email) {
+    connectToDb();
+    return User.findOne({ email });
+  }
+
+  async addUser({ username, email, password, img }) {
+    try {
+      connectToDb();
+      const newUser = new User({
+        username,
+        email,
+        password,
+        img,
+      });
+
+      await newUser.save();
+    } catch (error) {
+      console.log(error);
+      throw new Error(`Failed to add user ${username}!`);
+    }
+  }
+
+  async deleteUser(id) {
+    try {
+      connectToDb();
+      await Post.deleteMany({ userId: id });
+      await User.findByIdAndDelete(id);
+    } catch (error) {
+      console.log(error);
+      throw new Error(`Failed to delete user ${id}!`);
     }
   }
 }

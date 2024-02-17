@@ -29,6 +29,8 @@
   cursor: pointer;
   border: none;
   border-radius: 5px;
+  background-color: var(--bgSoft);
+  text-align: center;
 }
 
 .button:first-child {

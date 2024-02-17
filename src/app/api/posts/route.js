@@ -13,3 +13,23 @@ export const GET = async (request) => {
     throw new Error("Failed to fetch posts");
   }
 };
+
+export const POST = async (request) => {
+  const { title, desc, slug, userId } = await request.json();
+
+  try {
+    connectToDb();
+    const newPost = new Post({
+      title,
+      desc,
+      slug,
+      userId,
+    });
+    await newPost.save();
+
+    return NextResponse.json(newPost);
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to add post");
+  }
+};
